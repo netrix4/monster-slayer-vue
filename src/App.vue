@@ -4,6 +4,7 @@ import {ref } from "vue";
 const moveLog = ref([]);
 const playerHP = ref(10);
 const monsterHP = ref(10);
+const isStarted = ref(false)
 const battleStatusMessage = ref('En curso ⚔️')
 
 const getRandom = (max) => Math.floor(Math.random() * (max + 1));
@@ -11,14 +12,12 @@ const getRandom = (max) => Math.floor(Math.random() * (max + 1));
 const onMonsterDamage = (damage) => {
   if (damage >= monsterHP.value) {
     console.log('Ganaste');
-    battleStatusMessage.value = 'Ganaste 🎉 🗣️'
+    battleStatusMessage.value = '¡Ganaste! 🎉 🗣️'
     monsterHP.value = 0
-    
   }
   else{
     moveLog.value.push(`Jugador 1 hizo ${damage} de daño.`);
     monsterHP.value -= damage;
-    
   }
 };
 const onPlayerDamage = (damage) => {
@@ -61,16 +60,20 @@ const onJump = () => {
   console.log("Brincadoxd");
   moveLog.value.push("Se ha brincado. Sin efectos...");
 };
+const onStartGame = () =>{
+  isStarted.value = true
+}
 
 </script>
 <template>
+  
   <div class="major-container">
     <header class="top-bar">
       <h1 class="text-black w-[100%] text-center text-3xl">Monster Slayer RPG</h1>
     </header>
-    <main class="main-container py-[10%] px-[30%] space-y-2.5 overflow-auto">
+    <main v-if="isStarted" class="main-container py-[5%] px-[30%] space-y-2.5 overflow-auto">
       <section class="space-y-4">
-        <div class="w-[100%] border rounded-xl border-black p-3 flex flex-col items-start bg-[#9A031E] text-2xl text-white">
+        <div class="w-[100%] border rounded-xl border-black p-3 flex flex-col items-start bg-linear-to-l from-[#9c3247] to-[#9A031E] text-2xl text-white">
           <h1>Vida del Monstruo</h1>
           <div class="life-gauge" :style="{ width: monsterHP + '%' }">
             <p>{{ monsterHP }}/100</p>
@@ -78,7 +81,7 @@ const onJump = () => {
         </div>
       </section>
       <section class="space-y-4">
-        <div class="w-[100%] border rounded-xl border-black p-3 flex flex-col items-start bg-[#9A031E] text-2xl text-white">
+        <div class="w-[100%] border rounded-xl border-black p-3 flex flex-col items-start bg-linear-to-l from-[#9c3247] to-[#9A031E] text-2xl text-white">
           <h1>Tu Vida</h1>
           <div class="life-gauge" :style="{ width: playerHP + '%' }">
             <p>{{ playerHP }}/100</p>
@@ -93,10 +96,13 @@ const onJump = () => {
       </section>
       <section class="flex justify-center "><p class="text-center text-3xl">{{battleStatusMessage }}</p></section>
     </main>
+    <div v-else class="main-container py-[10%] px-[30%] space-y-2.5 overflow-auto flex flex-col items-center text-3xl text-white">
+      <button class=" cursor-pointer px-[10%] py-[2%] bg-linear-to-l from-[#9c3247] to-[#9A031E] w-auto rounded-[5px]" @click="onStartGame">Empezar</button>
+    </div>
     <!-- seccion de controles -->
     <footer class="bottom-bar">
       <!-- Atack controls -->
-      <section class="flex flex-col justify-center w-[25%] overflow-auto">
+      <section v-if="isStarted" class="flex flex-col justify-center w-[25%] overflow-auto">
         <div @click="onAttack" class="text-2xl text-white border border-white font-black align-middle cursor-crosshair">
           <h1 class="text-center">Atacar</h1>
         </div>
@@ -108,8 +114,8 @@ const onJump = () => {
         </div>
       </section>
       <!-- Moves log -->
-      <section class="flex flex-col overflow-y-auto w-[75%] text-xl text-white p-[1%]">
-        <p v-if="moveLog.length === 0">No moves yet!</p>
+      <section v-if="isStarted" class="flex flex-col overflow-y-auto w-[75%] text-xl text-white p-[1%]">
+        <p v-if="moveLog.length === 0">¡Sin movimientos todavia!</p>
         <p v-else v-for="move in moveLog">{{ move }}</p>
       </section>
     </footer>
