@@ -1,18 +1,27 @@
 <script setup>
-defineProps(["title", "content"]);
+// const props = defineProps(["title", "content", "textColor"]);
+const props = defineProps({
+  id: Number,
+  title: String,
+  content: { type: String, default: "Sin descripcion" },
+  textColor: String,
+  colorFondo: String,
+  colorText: String,
+});
 </script>
 <template>
   <div class="card-body">
     <h2 v-if="title" class="card-title">{{ title }}</h2>
     <h2 v-else class="card-title">Esto es un titulo por defecto</h2>
-    <p v-if="content">
+    <!-- <p v-if="content"> -->
+    <p>
       {{ content }}
     </p>
-    <p v-else>
+    <!-- <p v-else>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, esse? Tenetur fuga minus
       laborum cumque obcaecati! Magni nulla tenetur illum illo minima sed velit voluptatem suscipit
       facilis, dolore doloremque veniam?
-    </p>
+    </p> -->
   </div>
 </template>
 <style>

@@ -1,11 +1,28 @@
 <script setup>
 import BlogPost from "./components/BlogPost.vue";
+import { ref } from "vue";
+
+const postList = ref([
+  { id: 1, title: "Mucho calor en Enseyork", content: "Contenido1" },
+  { id: 2, title: "titulo dosss" },
+  { id: 3, title: "titulo tres", content: "contenido de tarjeta tres" },
+  { id: 4 },
+]);
+console.log(postList);
 </script>
 <template>
   <div class="card">
-    <BlogPost title="Mucho calor en ensenada" />
-    <BlogPost title="Mucho calor en ensenada" content="Esto es un contenido tambien" />
-    <BlogPost content="Esto es un contenido tambien" />
+    <!-- <BlogPost :id="1" title="Mucho calor en ensenada" />
+    <BlogPost :id="2" title="Mucho calor en ensenada" content="Esto es un contenido tambien" />
+    <BlogPost :id="3" content="Esto es un contenido tambien" />
+    <BlogPost :id="4" textColor="text-orange-500" />
+    <BlogPost :id="5" colorFondo="#000" /> -->
+    <BlogPost
+      v-for="post in postList"
+      :id="`${post.id}`"
+      :title="`${post.title}`"
+      :content="`${post.content}`"
+    />
   </div>
 </template>
 <style lang="css">
