@@ -2,8 +2,8 @@
 import {ref } from "vue";
 
 const moveLog = ref([]);
-const playerHP = ref(10);
-const monsterHP = ref(10);
+const playerHP = ref(100);
+const monsterHP = ref(100);
 const isStarted = ref(false)
 const battleStatusMessage = ref('En curso ⚔️')
 
